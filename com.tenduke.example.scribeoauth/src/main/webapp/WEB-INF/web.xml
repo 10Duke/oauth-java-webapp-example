@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+
+    <!-- OAuth10aLoginServlet start the OAuth 1.0a SSO process:
+         when user clicks login and this servlet is called from the browser)
+    -->
+    <servlet>
+        <servlet-name>OAuth10aLoginServlet</servlet-name>
+        <servlet-class>com.tenduke.example.scribeoauth.oauth10a.OAuth10aLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OAuth10aLoginServlet</servlet-name>
+        <url-pattern>/login-oauth10a/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- OAuth10aCallbackServlet finalizes the OAuth 1.0a SSO process:
+         validates result OAuth message from IdP and creates authenticated session
+         between user agent and this consumer service.
+    -->
+    <servlet>
+        <servlet-name>OAuth10aCallbackServlet</servlet-name>
+        <servlet-class>com.tenduke.example.scribeoauth.oauth10a.OAuth10aCallbackServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OAuth10aCallbackServlet</servlet-name>
+        <url-pattern>/oauth10aCallback/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- OAuth20LoginServlet start the OAuth 2.0 SSO process:
+         when user clicks login and this servlet is called from the browser)
+    -->
+    <servlet>
+        <servlet-name>OAuth20LoginServlet</servlet-name>
+        <servlet-class>com.tenduke.example.scribeoauth.oauth2.OAuth20LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OAuth20LoginServlet</servlet-name>
+        <url-pattern>/login-oauth20/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- OAuth20CallbackServlet finalizes the OAuth 2.0 SSO process:
+         validates result OAuth message from IdP and creates authenticated session
+         between user agent and this consumer service.
+    -->
+    <servlet>
+        <servlet-name>OAuth20CallbackServlet</servlet-name>
+        <servlet-class>com.tenduke.example.scribeoauth.oauth2.OAuth20CallbackServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OAuth20CallbackServlet</servlet-name>
+        <url-pattern>/oauth20Callback/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- JwtLoginServlet will process a user authentication request based on an
+         identity claim passed in by the caller.
+    -->
+    <servlet>
+        <servlet-name>JwtLoginServlet</servlet-name>
+        <servlet-class>com.tenduke.example.scribeoauth.JwtLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JwtLoginServlet</servlet-name>
+        <url-pattern>/jwt-login/*</url-pattern>
+    </servlet-mapping>
+</web-app>

@@ -1,0 +1,10 @@
+{
+    "requestTokenEndpoint": "http://todo/oauth",
+    "accessTokenEndpoint": "http://todo/oauth",
+    "authzEndpoint": "http://todo/authz",
+    "apiKey": "localoauth10",
+    "apiSecret": "localoauth10_secret",
+    "callbackUrl": "http://localhost:8080/consumer/oauth10aCallback/",
+    "graphUrl":"http://todo/graph",
+    "authzApi":"http://todo/authz/.json"
+}
