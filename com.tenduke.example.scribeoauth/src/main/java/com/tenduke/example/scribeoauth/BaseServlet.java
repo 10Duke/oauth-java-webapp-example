@@ -27,9 +27,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import org.json.JSONObject;
@@ -45,11 +42,6 @@ import org.json.JSONObject;
 public abstract class BaseServlet extends HttpServlet {
 
     /**
-     * Map that is used to store tokens.
-     */
-    private static final Map<String, JSONObject> configs = Collections.synchronizedMap(new HashMap<String, JSONObject>());
-
-    /**
      * Reads a JSON configuration from WEB-INF/[resourceName]
      * @param resourceName Name of resource in WEB-INF folder.
      * @param servletContext used to access resource as stream.
@@ -59,7 +51,7 @@ public abstract class BaseServlet extends HttpServlet {
         //
         JSONObject retValue;
         //
-        JSONObject cached = configs.get(resourceName);
+        JSONObject cached = Configuration.get(resourceName);
         if (cached != null) {
             //
             // return a copy (not trusting concurrent access to a JSONObject), of cource the next line
@@ -84,7 +76,7 @@ public abstract class BaseServlet extends HttpServlet {
                 is.close();
                 //
                 cached = new JSONObject(sb.toString());
-                configs.put(resourceName, cached);
+                Configuration.set(resourceName, cached);
                 //
                 // return a copy (not trusting concurrent access to a JSONObject), of cource the next line
                 // will make concurrent read access to the JSONObject (map).

@@ -12,6 +12,7 @@
     <servlet>
         <servlet-name>OAuth10aLoginServlet</servlet-name>
         <servlet-class>com.tenduke.example.scribeoauth.oauth10a.OAuth10aLoginServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>OAuth10aLoginServlet</servlet-name>
@@ -25,6 +26,7 @@
     <servlet>
         <servlet-name>OAuth10aCallbackServlet</servlet-name>
         <servlet-class>com.tenduke.example.scribeoauth.oauth10a.OAuth10aCallbackServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>OAuth10aCallbackServlet</servlet-name>
@@ -37,6 +39,7 @@
     <servlet>
         <servlet-name>OAuth20LoginServlet</servlet-name>
         <servlet-class>com.tenduke.example.scribeoauth.oauth2.OAuth20LoginServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>OAuth20LoginServlet</servlet-name>
@@ -50,6 +53,7 @@
     <servlet>
         <servlet-name>OAuth20CallbackServlet</servlet-name>
         <servlet-class>com.tenduke.example.scribeoauth.oauth2.OAuth20CallbackServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>OAuth20CallbackServlet</servlet-name>
