@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --%>
 
+<%@page import="java.util.Optional"%>
+<%@page import="java.util.Arrays"%>
 <%--
     Document   : index.jsp, provides UI for starting Single Sign-in process from this OAUth consumer.
     Created on : Jul 16, 2015, 10:27:15 AM
@@ -33,6 +35,40 @@ SOFTWARE.
 <%@page import="org.json.JSONObject"%>
 <%@page import="com.tenduke.example.scribeoauth.SessionManager"%>
 <%@page import="com.tenduke.example.scribeoauth.SessionInformation"%>
+
+<%
+    //
+    // Nonce is required in OAuth 2.0 implicit flow for validating
+    // id token.
+    //
+    // It is initializes here, early in the chain, as it need
+    // to be stored over page transition. A Cookie is used as
+    // mechanism to store the nonce.
+    //
+    // It is also OK to use nonce in other flows but it is not required.
+    String nonceFromCookie = null;
+    if (request.getCookies() != null) {
+        //
+        Optional<Cookie> existingNonceCookie = Arrays
+                .stream(request.getCookies())
+                .filter(cookie -> "id_token_nonce".equals(cookie.getName()))
+                .findFirst();
+        if (existingNonceCookie.isPresent()) {
+            //
+            nonceFromCookie = existingNonceCookie.get().getValue();
+        }
+    }
+    //
+    String nonce = nonceFromCookie;
+    if (nonce == null || nonce.isEmpty()) {
+        //
+        nonce = UUID.randomUUID().toString();
+        Cookie nonceCookie = new Cookie("id_token_nonce", nonce);
+        nonceCookie.setPath("/"); // cookie applies to all paths
+        nonceCookie.setMaxAge(3600); // one hour cookie life time
+        response.addCookie(nonceCookie);
+    }
+%>
 
 <%-- Page head --%>
 <%@include file="pageHead.jsp" %>
@@ -91,18 +127,22 @@ SOFTWARE.
     //
     // read configuration for using OAuth 2.0 implicit grant flow:
     String consumerState = UUID.randomUUID().toString();
+    //
     String clientId = Configuration.get("oauth20.json").getString("apiKey");
+    //
     String authzUrl = MessageFormat.format(
             Configuration.get("oauth20.json").getString("implicitFlowAuthzEndpoint"),
             clientId,
             Configuration.get("oauth20.json").getString("implicitFlowCallbackUrl"),
-            consumerState);
+            consumerState,
+            nonce); // * nonce is declared and defined in head of this file
+    //
     String userInfoEndpoint = Configuration.get("oauth20.json").getString("userinfo");
 %>
                 var STATE = "<%= consumerState %>"; // todo: store this over page transition for matching on return
                 var AUTHORIZATION_ENDPOINT = "<%= authzUrl %>"; // this is where the IdP handles authorization requests
                 var RESOURCE_ENDPOINT = "<%= userInfoEndpoint %>"; // this is where to get user information (todo still)
-
+                var NONCE = "<%= nonce %>";
                 //
                 // check if there's a token, if not then we are in square 1.
                 var token = parseToken(document.location.hash);
@@ -112,6 +152,7 @@ SOFTWARE.
                     $('div.authenticate').hide();
                     $('div.authenticated').show();
                     $('span.token').text(token);
+                    $('span.nonce').text(NONCE);
                     $.ajax({
                         url: RESOURCE_ENDPOINT
                       , beforeSend: function (xhr) {
@@ -146,6 +187,10 @@ SOFTWARE.
                 <p>
                     Your access token is:
                     <span class="token">N/A</span>
+                </p>
+                <p>
+                    Your id token nonce is:
+                    <span class="nonce">N/A</span>
                 </p>
                 <p>
                     Your email is:

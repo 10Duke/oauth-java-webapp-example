@@ -1,7 +1,7 @@
 {
     "accessTokenEndpoint": "http://todo-idp-host/oauth2/access/?grant_type=authorization_code",
     "authzEndpoint": "http://todo-idp-host/oauth2/authz/?response_type=code&scope=openid&client_id={0}&redirect_uri={1}&state={2}",
-    "implicitFlowAuthzEndpoint": "http://todo-idp-host/oauth2/authz/?response_type=token&scope=email&client_id={0}&redirect_uri={1}&state={2}",
+    "implicitFlowAuthzEndpoint": "http://todo-idp-host/oauth2/authz/?response_type=token+id_token&scope=email+given_name+family_name&client_id={0}&redirect_uri={1}&state={2}&nonce={3}",
     "apiKey": "localoauth20",
     "apiSecret": "localoauth20_secret",
     "callbackUrl": "http://localhost:8080/consumer/oauth20Callback",
