@@ -21,30 +21,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --%>
+
+<%--
+    Document   : index.jsp, provides UI for starting Single Sign-in process from this OAUth consumer.
+    Created on : Jul 16, 2015, 10:27:15 AM
+    Author     : Frej, 10Duke Software, Ltd.
+--%>
 <%@page import="java.util.UUID"%>
 <%@page import="java.text.MessageFormat"%>
 <%@page import="com.tenduke.example.scribeoauth.Configuration"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="com.tenduke.example.scribeoauth.SessionManager"%>
 <%@page import="com.tenduke.example.scribeoauth.SessionInformation"%>
-<%--
-    Document   : index.jsp, provides UI for starting Single Sign-in process from this OAUth consumer.
-    Created on : Jul 16, 2015, 10:27:15 AM
-    Author     : Frej, 10Duke Software, Ltd.
---%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>SSO - Start here</title>
-        <script type="text/javascript" src="js/jquery-1.12.0.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<%-- Page head --%>
+<%@include file="pageHead.jsp" %>
 
-    </head>
-    <body>
-        <div class="container-fluid">
+<%-- Page content --%>
             <h1>Hello SSO!</h1>
 <%
     SessionInformation sessionInfo = SessionManager.instance().validateSession(request, response);
@@ -75,7 +68,7 @@ SOFTWARE.
             </form>
 
             <!-- OAUTH 2.0 AUTHORIZATION GRANT FLOW STARTS HERE -->
-            <h3>OAuth 2.0a Authorization grant flow</h3>
+            <h3>OAuth 2.0 Authorization grant flow</h3>
             <form action="login-oauth20">
                 <input class="btn-primary" type="submit" value="Login - 2.0"/>
             </form>
@@ -107,7 +100,6 @@ SOFTWARE.
     String userInfoEndpoint = Configuration.get("oauth20.json").getString("userinfo");
 %>
                 var STATE = "<%= consumerState %>"; // todo: store this over page transition for matching on return
-                var CLIENT_ID = "<%= clientId %>";  // this is the consumer identifier given to this application
                 var AUTHORIZATION_ENDPOINT = "<%= authzUrl %>"; // this is where the IdP handles authorization requests
                 var RESOURCE_ENDPOINT = "<%= userInfoEndpoint %>"; // this is where to get user information (todo still)
 
@@ -119,9 +111,7 @@ SOFTWARE.
                     // we have a token --> hide login button and show information
                     $('div.authenticate').hide();
                     $('div.authenticated').show();
-
                     $('span.token').text(token);
-
                     $.ajax({
                         url: RESOURCE_ENDPOINT
                       , beforeSend: function (xhr) {
@@ -141,10 +131,7 @@ SOFTWARE.
                   $('div.authenticate').show();
                   $('div.authenticated').hide();
 
-                  var authUrl = AUTHORIZATION_ENDPOINT +
-                    "?response_type=token" +
-                    "&client_id="    + CLIENT_ID +
-                    "&redirect_uri=" + window.location;
+                  var authUrl = AUTHORIZATION_ENDPOINT;
 
                   $("a.startImplicitFlow").attr("href", authUrl);
                 }
@@ -164,7 +151,11 @@ SOFTWARE.
                     Your email is:
                     <span class="user">N/A</span>
                 </p>
+                <p>
+                    <a class="btn btn-success" role="button" href="<%= Configuration.get("oauth20.json").getString("implicitFlowCallbackUrl") %>">Start over</a>
+                </p>
             </div>
-        </div>
-    </body>
-</html>
+<%-- End page content --%>
+
+<%-- Page tail --%>
+<%@include file="pageTail.jsp" %>

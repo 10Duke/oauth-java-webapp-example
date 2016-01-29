@@ -29,16 +29,11 @@ SOFTWARE.
 <%@page import="org.json.JSONObject"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="java.io.StringWriter"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Test Consumer call to IdP - OAuth</title>
-    </head>
-    <body>
+
+<%-- Page head --%>
+<%@include file="pageHead.jsp" %>
+
+<%-- Page content --%>
         <h1>OAuth 1.0a signed consumer to IdP call</h1>
         <p>
             You may type a URL path and query into the input. Submitting the
@@ -53,36 +48,40 @@ SOFTWARE.
 
         <!-- this form will trigger a /graph API call to the IdP (from the consumer webapp server) -->
         <h2>Graph API: /graph</h2>
-        <form target="newwindow" action="oauth10aCallIdp.jsp">
-            <label for="idpQuery">IdP URL Path and Query</label>
-            <input type="text" id="idpQuery" name="idpQuery"/>
-            <button type="submit">Call /graph</button>
+        <form role="form" target="newwindow" action="oauth10aCallIdp.jsp">
+            <div class="form-group">
+                <label for="idpQuery">IdP URL Path and Query</label>
+                <input class="form-control" type="text" id="idpQuery" name="idpQuery"/>
+            </div>
+            <button class="btn btn-primary" type="submit">Call /graph</button>
         </form>
 
         <!-- this form will trigger a /graph API call to the IdP (from the consumer webapp server) -->
         <h2>Authorization API: /authz</h2>
-        <form target="newwindow2" action="oauth10aCallIdpAuthz.jsp">
+        <form role="form" target="newwindow2" action="oauth10aCallIdpAuthz.jsp">
 
-            <label for="itemname">Item name</label>
-            <input type="text" id="itemname" name="itemname"/>
+            <div class="form-group">
+                <label for="itemname">Item name</label>
+                <input class="form-control" type="text" id="itemname" name="itemname"/>
 
-            <label for="itemname">Action</label>
-            <input type="text" id="actionname" name="actionname"/>
+                <label for="itemname">Action</label>
+                <input class="form-control" type="text" id="actionname" name="actionname"/>
+            </div>
 
+            <div class="form-group">
+                <label for="permissionscope">Permission scope</label>
+                <input class="form-control" type="text" id="permissionscope" name="permissionscope"/>
+            </div>
+
+            <div class="form-group">
+                <label for="hw">Hardware id</label>
+                <input class="form-control" type="text" id="hw" name="hw"/>
+            </div>
             <br/>
 
-            <label for="permissionscope">Permission scope</label>
-            <input type="text" id="permissionscope" name="permissionscope"/>
-
-            <br/>
-
-            <label for="hw">Hardware id</label>
-            <input type="text" id="hw" name="hw"/>
-
-            <br/>
-
-            <button type="submit">Check authorization</button>
+            <button class="btn btn-primary" type="submit">Check authorization</button>
         </form>
+<%-- End page content --%>
 
-    </body>
-</html>
+<%-- Page tail --%>
+<%@include file="pageTail.jsp" %>

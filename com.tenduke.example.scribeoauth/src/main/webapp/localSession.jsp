@@ -21,23 +21,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --%>
-<%@page import="com.tenduke.example.scribeoauth.SessionManager"%>
-<%@page import="com.tenduke.example.scribeoauth.SessionInformation"%>
+
 <%--
     Document   : localSession.jsp, provides a check if the mock session manager thinks you are logged in.
     Created on : Nov 24, 2015, 16:59:01 PM
     Author     : Frej, 10Duke Software, Ltd.
 --%>
-
+<%@page import="com.tenduke.example.scribeoauth.SessionManager"%>
+<%@page import="com.tenduke.example.scribeoauth.SessionInformation"%>
 <%@page import="org.json.JSONObject"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Local session test page</title>
-    </head>
-    <body>
+
+<%-- Page head --%>
+<%@include file="pageHead.jsp" %>
+
+<%-- Page content --%>
 <%
     SessionInformation sessionInfo = SessionManager.instance().validateSession(request, response);
     if (sessionInfo != null && sessionInfo.getUser() != null) {
@@ -64,5 +61,7 @@ SOFTWARE.
         <p>
             <a href="<%= request.getContextPath() == null ? "/" : request.getContextPath() %>">Go back to login page...</a>
         </p>
-    </body>
-</html>
+<%-- End page content --%>
+
+<%-- Page tail --%>
+<%@include file="pageTail.jsp" %>

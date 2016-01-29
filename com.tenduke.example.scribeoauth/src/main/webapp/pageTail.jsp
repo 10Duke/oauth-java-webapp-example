@@ -21,22 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --%>
+
 <%--
-    Document   : unauthorized.jsp, used to communicate that user did not authorize this consumer at the IdP.
-    Created on : Jul 16, 2015, 10:34:26 AM
+    Document   : pageTail.jsp, used in this example to output document tail, see pagehead for opening part of the doc.
+    Created on : Jul 16, 2015, 10:27:15 AM
     Author     : Frej, 10Duke Software, Ltd.
 --%>
-<%@page import="java.io.PrintWriter"%>
-<%@page import="java.io.StringWriter"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<%-- Page head --%>
-<%@include file="pageHead.jsp" %>
-
-<%-- Page content --%>
-        <h1>Arghhhh!</h1>
-        <p>IdP says: NOT AUTHORIZED</p>
-<%-- End page content --%>
-
-<%-- Page tail --%>
-<%@include file="pageTail.jsp" %>
+        </div>
+    </body>
+</html>

@@ -28,16 +28,11 @@ SOFTWARE.
 --%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="java.io.StringWriter"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Error page - OAuth</title>
-    </head>
-    <body>
+
+<%-- Page head --%>
+<%@include file="pageHead.jsp" %>
+
+<%-- Page content --%>
         <h1>Arghhhh!</h1>
         <p>An error with Single Sign-on configuration for OAuth has occurred. The details are:</p>
 <%
@@ -80,5 +75,7 @@ SOFTWARE.
 <%
         }
 %>
-    </body>
-</html>
+<%-- End page content --%>
+
+<%-- Page tail --%>
+<%@include file="pageTail.jsp" %>

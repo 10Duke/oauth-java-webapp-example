@@ -29,16 +29,11 @@ SOFTWARE.
 <%@page import="org.json.JSONObject"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="java.io.StringWriter"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome In - All Good</title>
-    </head>
-    <body>
+
+<%-- Page head --%>
+<%@include file="pageHead.jsp" %>
+
+<%-- Page content --%>
         <h1>Yay!</h1>
         <p>User authorized this consumer at the Idp, which means in SSO terms that Login was successful.</p>
 <%
@@ -87,5 +82,7 @@ SOFTWARE.
             This OAuth consumer cached user information provided by the IdP.
             <a href="<%= request.getContextPath() == null ? "" : request.getContextPath() %>/localSession.jsp"> Check it out...</a>
         </p>
-    </body>
-</html>
+<%-- End page content --%>
+
+<%-- Page tail --%>
+<%@include file="pageTail.jsp" %>
