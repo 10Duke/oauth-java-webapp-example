@@ -153,6 +153,7 @@ SOFTWARE.
                     $('div.authenticated').show();
                     $('span.token').text(token);
                     $('span.nonce').text(NONCE);
+                    Cookies.set("token", token);
                     $.ajax({
                         url: RESOURCE_ENDPOINT
                       , beforeSend: function (xhr) {
@@ -167,7 +168,7 @@ SOFTWARE.
                               container.text("An error occurred.");
                             }
                         }
-                  });
+                    });
                 } else {
                   $('div.authenticate').show();
                   $('div.authenticated').hide();

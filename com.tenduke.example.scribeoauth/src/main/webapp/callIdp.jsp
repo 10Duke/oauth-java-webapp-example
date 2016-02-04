@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --%>
+<%@page import="com.tenduke.example.scribeoauth.Configuration"%>
 <%--
     Document   : calldp.jsp, Makes OAuth signed call to the IdP /graph OR /authz service.
     Created on : Jul 16, 2015, 10:34:26 AM
@@ -81,6 +82,62 @@ SOFTWARE.
 
             <button class="btn btn-primary" type="submit">Check authorization</button>
         </form>
+
+        <!-- OAUTH2 - Bearer token /authz call from Client -->
+<%
+    String authzApiUrl = Configuration.get("oauth20.json").getString("authzApi");
+%>
+        <script type="text/javascript" charset="utf-8">
+            var itemName = "";
+            var hwId = "";
+            $( document ).ready(function() {
+                $('#authzBtn').click(function() {
+                    var authzWithParams = "<%= authzApiUrl %>" + "/.json?" + itemName + "&hw=" + hwId;
+                    $.ajax({
+                        url: authzWithParams
+                      , beforeSend: function (xhr) {
+                          xhr.setRequestHeader('Authorization', "Bearer " + Cookies.get("token"));
+                          xhr.setRequestHeader('Accept',        "application/json");
+                        }
+                      , success: function (response) {
+                            if (response) {
+                              alert(itemName + "=" + response[itemName]
+                                      + "\n" + "iss:" + response.iss
+                                      + "\n" + "exp:" + response.exp
+                                      + "\n" + "iat:" + response.iat
+                                      + "\n" + "jti:" + response.jti);
+                            } else {
+                              alert("An error occurred.");
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+        <h2>Authorization API: /authz with Bearer token</h2>
+        <div role="form">
+
+            <div class="form-group">
+                <label for="itemname">Item name</label>
+                <input class="form-control" type="text" id="itemname" name="itemname" onchange="javascript: itemName = $(this).val()"/>
+
+                <label for="actionname">Action</label>
+                <input class="form-control" type="text" id="actionname" name="actionname" value=""/>
+            </div>
+
+            <div class="form-group">
+                <label for="permissionscope">Permission scope</label>
+                <input class="form-control" type="text" id="permissionscope" name="permissionscope" value=""/>
+            </div>
+
+            <div class="form-group">
+                <label for="hw">Hardware id</label>
+                <input class="form-control" type="text" id="hw" name="hw" id="hw" onchange="javascript: hwId = $(this).val()"/>
+            </div>
+            <br/>
+
+            <button class="btn btn-primary" id="authzBtn">Check authorization</button>
+        </div>
 <%-- End page content --%>
 
 <%-- Page tail --%>

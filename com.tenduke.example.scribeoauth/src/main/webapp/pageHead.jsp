@@ -35,6 +35,7 @@ SOFTWARE.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>SSO - Example</title>
         <script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+        <script type="text/javascript" src="js/jscookie.js"></script>
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
               integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
