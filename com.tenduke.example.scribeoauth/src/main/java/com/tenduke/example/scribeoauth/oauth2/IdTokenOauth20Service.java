@@ -23,6 +23,7 @@ SOFTWARE.
 */
 package com.tenduke.example.scribeoauth.oauth2;
 
+import com.tenduke.example.scribeoauth.ConfigurationException;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import org.json.JSONObject;
@@ -106,7 +107,16 @@ public class IdTokenOauth20Service extends OAuth20ServiceImpl {
                 GRANT_TYPE_AUTHORIZATION_CODE);
         final Response response = request.send();
         accessTokenResponse = response.getBody();
-        return api.getAccessTokenExtractor().extract(accessTokenResponse);
+        if (response.isSuccessful()) {
+            return api.getAccessTokenExtractor().extract(accessTokenResponse);
+        } else {
+            throw new ConfigurationException(
+                    "Token request failed, check config and IdP logs."
+                    + " Response code: \n"
+                    + response.getCode()
+                    + "\n response body: \n"
+                    + response.getBody());
+        }
     }
 
     /**
